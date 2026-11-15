@@ -7,9 +7,33 @@
        The handout lists every control and the exact x:Name the check
        looks for. A name that is spelled differently is a control the
        check cannot find. -->
+
+	
+	
   <StackPanel Margin="20" Spacing="12">
 
     <TextBlock Text="Corner Cup" FontSize="24" FontWeight="Bold"/>
+
+	  <TextBlock Text="Customer Name"/>
+	  <TextBox x:Name="CustomerBox"
+			   TextChanged ="Input_TextChanged"/>
+	  
+	  <TextBlock Text="Drink"/>	
+ 	  <TextBox x:Name="DrinkBox"
+			   TextChanged="Input_TextChanged"/>
+	  
+	  <Button x:Name="PlaceButton"
+			  Content="Place"
+			  Click="PlaceButton_Click"/>
+
+	  <Button x:Name="ReadyButton"
+			  Content="Ready"
+			  Click="ReadyButton_Click"/>
+	  
+	  <ListBox x:Name="WaitingList"/>
+	
+	  <TextBlock x:Name="StatusText"
+				 Text="Waiting for orders"/>
 
   </StackPanel>
 </Window>

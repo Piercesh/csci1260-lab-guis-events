@@ -17,9 +17,9 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         // TODO: Part C, demo. Subscribe to bar.OrderPlaced.
-
+        bar.AllCaughtUp += OnAllCaughtUp;
         // TODO: Exercise 3. Subscribe to bar.OrderReady and bar.AllCaughtUp.
-
+        UpdateButtons();
         // TODO: Part D, demo. Subscribe to TextChanged on both boxes,
         // then set the buttons for an empty window.
 
@@ -29,4 +29,59 @@ public partial class MainWindow : Window
 
     // Write the click handlers, the event handlers, and the helper
     // methods below this line.
+
+    private void PlaceButton_Click(object sender, RoutedEventArgs e)
+    {
+        string customer = CustomerBox.Text;
+        string drink = DrinkBox.Text;
+
+        bar.Place(customer, drink);
+        UpdateDisplay();
+        UpdateButtons();
+    }
+
+    private void ReadyButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (bar.WaitingCount > 0)
+        {
+            bar.FinishNext();
+        }
+        UpdateDisplay();
+        UpdateButtons();
+    }
+
+    private void OnAllCaughtUp(object? sender, EventArgs e)
+    {
+        StatusText.Text = "All Caught Up";
+    }
+
+    private void UpdateDisplay()
+    {
+        WaitingList.ItemsSource = null;
+        WaitingList.ItemsSource = bar.Waiting();
+
+        if (bar.WaitingCount == 0)
+        {
+            StatusText.Text = "All Caught Up";
+        }
+        else
+        {
+            StatusText.Text = $"{bar.WaitingCount} orders waiting";
+        }
+    }
+
+    private void UpdateButtons()
+    {
+        PlaceButton.IsEnabled =
+            !
+            string.IsNullOrWhiteSpace(CustomerBox.Text) && !
+            string.IsNullOrWhiteSpace(DrinkBox.Text);
+        ReadyButton.IsEnabled = bar.WaitingCount > 0;
+    }
+
+    private void Input_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        UpdateButtons();
+    }
+
 }

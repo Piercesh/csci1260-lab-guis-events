@@ -18,13 +18,16 @@ public class PickupScreen
     public void Connect(CoffeeBar bar)
     {
         // TODO: Part B, demo
-        throw new NotImplementedException();
+        bar.OrderReady += OnOrderReady;
+        //throw new NotImplementedException();
     }
 
     // Runs every time the bar raises OrderReady.
     private void OnOrderReady(object? sender, OrderEventArgs e)
     {
         // TODO: Part B, demo
-        throw new NotImplementedException();
+        lines.Add($"Ready: #{e.Order.Number} {e.Order.Customer}");
+        //throw new NotImplementedException();
     }
+
 }

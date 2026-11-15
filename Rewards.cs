@@ -23,9 +23,19 @@ public class Rewards
     public void Connect(CoffeeBar bar)
     {
         // TODO: Exercise 2
-        throw new NotImplementedException();
+        bar.OrderReady += OnOrderReady;
+        //throw new NotImplementedException();
     }
 
+    private void OnOrderReady(object? sender, OrderEventArgs e) 
+    {
+        drinks[e.Order.Customer] = DrinksFor(e.Order.Customer) + 1;
+
+        if (DrinksFor(e.Order.Customer) == DrinksPerReward)
+        {
+            FreeDrinkEarned?.Invoke(this, e);
+        }
+    }
     // TODO: Exercise 2. Write the handler here. Add one to the customer's
     // count, and when the count reaches a multiple of DrinksPerReward,
     // raise FreeDrinkEarned.

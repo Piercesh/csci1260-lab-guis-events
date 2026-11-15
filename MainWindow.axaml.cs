@@ -12,6 +12,8 @@ public partial class MainWindow : Window
 {
     private readonly CoffeeBar bar = new CoffeeBar();
 
+    private readonly Rewards rewards = new Rewards();
+
     public MainWindow()
     {
         InitializeComponent();

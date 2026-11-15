@@ -36,7 +36,23 @@ public class CoffeeBar
     public Order Place(string customer, string drink)
     {
         // TODO: Part A, demo
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(customer)) 
+        {
+            throw new ArgumentException("Customer Name is required");
+        }
+
+        if (string.IsNullOrWhiteSpace(drink))
+        {
+            throw new ArgumentException("drink is required");
+        }
+
+        Order order = new Order(nextNumber++, customer, drink);
+
+        waiting.Enqueue(order);
+
+        OrderPlaced?.Invoke(this, new OrderEventArgs(order));
+        return order;
+        //throw new NotImplementedException();
     }
 
     // Take the oldest order out of line, then announce it. Return the order.
@@ -45,6 +61,15 @@ public class CoffeeBar
     {
         // TODO: Part A, demo. Then Exercise 1: announce AllCaughtUp when
         // the order you just finished was the last one in line.
-        throw new NotImplementedException();
+        if (waiting.Count == 0)
+            throw new InvalidOperationException("No orders are waiting");
+
+        Order order = waiting.Dequeue();
+        OrderReady?.Invoke(this, new OrderEventArgs(order));
+
+        if (waiting.Count == 0)
+            AllCaughtUp?.Invoke(this, EventArgs.Empty);
+        return order;
+        //throw new NotImplementedException();
     }
 }
